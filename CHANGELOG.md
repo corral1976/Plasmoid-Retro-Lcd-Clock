@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.7.1] - 2026-10-14
+
+### Fixed
+- License metadata: `KPlugin.License` in `metadata.json` now uses the valid SPDX identifier `GPL-3.0-or-later` instead of the deprecated `GPL-3.0`, which tools such as Discover did not recognize (shown as "Unknown").
+- `LICENSE` now contains the complete, unmodified text of the GNU GPL version 3 instead of the abbreviated notice, so license detectors (GitLab, REUSE, distribution tooling) can identify it.
+
+### Changed
+- The license grant is now stated explicitly as "version 3 or (at your option) any later version", via SPDX headers (`SPDX-License-Identifier: GPL-3.0-or-later`) in every source file.
+- `README.md` and `NOTICE.md` updated to match; the README third-party list now also credits DotMatrix and the icon.
+- CI validation now fails on invalid `metadata.json` or a missing/non-SPDX `License` value instead of only printing a warning.
+
 ## [1.7.0] - 2026-08-22
 
 ### Added

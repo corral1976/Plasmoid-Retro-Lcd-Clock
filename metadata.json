@@ -4,9 +4,9 @@
         "Description": "Retro 7-segment LCD digital clock with customizable themes and alarm",
         "Icon": "/icons/icon.svg",
         "Category": "Date and Time",
-        "License": "GPL-3.0",
+        "License": "GPL-3.0-or-later",
         "Id": "com.gitlab.corral1976.relojlcd",
-        "Version": "1.7.0",
+        "Version": "1.7.1",
         "Website": "https://gitlab.com/corral1976/plasmoid-retro-lcd-clock",
         "Authors": [
             {

@@ -1,9 +1,8 @@
 # Retro LCD 7-Segment Clock (Plasmoid)
 
-[![build](https://img.shields.io/github/actions/workflow/status/corral1976/plasma-applet-relojlcd/ci.yml?style=flat-square&label=build&labelColor=282828&color=b8bb26)](https://github.com/corral1976/plasma-applet-relojlcd/actions)
-[![Latest Release](https://img.shields.io/github/v/release/corral1976/plasma-applet-relojlcd)](https://github.com/corral1976/plasma-applet-relojlcd/releases)
-[![stars](https://img.shields.io/github/stars/corral1976/plasma-applet-relojlcd?style=flat-square&label=stars&labelColor=282828&color=d79921)](https://github.com/corral1976/plasma-applet-relojlcd)
-[![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![License: GPL-3.0-or-later](https://img.shields.io/badge/License-GPL--3.0--or--later-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Latest Release](https://img.shields.io/gitlab/v/release/corral1976/plasmoid-retro-lcd-clock)](https://gitlab.com/corral1976/plasmoid-retro-lcd-clock/-/releases)
+[![Pipeline Status](https://gitlab.com/corral1976/plasmoid-retro-lcd-clock/badges/main/pipeline.svg)](https://gitlab.com/corral1976/plasmoid-retro-lcd-clock/-/pipelines)
 
 A digital clock widget with a retro 7-segment LCD aesthetic for your KDE Plasma 6 desktop. Minimalist design, lightweight, and with an authentic vintage touch.
 
@@ -109,12 +108,13 @@ Your support helps maintain and improve the project.
 
 ## License and Credits
 
-This project is free software distributed under the GPL-3.0 license.
+This project is free software, licensed under the **GNU General Public License, version 3 or (at your option) any later version** (SPDX: `GPL-3.0-or-later`). The full text is in the `LICENSE` file.
 
-Third-party assets
-Font: DSEG7-Classic by Keshikan. Licensed under the SIL Open Font License 1.1.
+Third-party assets:
 
-Alarm sound: "alarm clock buzzer alarm beep" by Garuda1982. Licensed under Creative Commons 0 (CC0).
+- Fonts: DSEG7-Classic by Keshikan and DotMatrix by Stefan Schmidt / The DotMatrix Project Authors. Both licensed under the SIL Open Font License 1.1.
+- Icon: "Digital Clock" by manio1. Licensed under Creative Commons 0 (CC0).
+- Alarm sound: "alarm clock buzzer alarm beep" by Garuda1982. Licensed under Creative Commons 0 (CC0).
 
 For more details, see the NOTICE.md file.
 

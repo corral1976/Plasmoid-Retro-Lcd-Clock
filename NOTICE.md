@@ -1,6 +1,8 @@
 # Third-party notices
 
-This plasmoid (original QML code) is licensed under **GPL-3.0** (see `LICENSE`).
+This plasmoid (original QML code) is licensed under **GPL-3.0-or-later**: the GNU
+General Public License, version 3 or (at your option) any later version
+(see `LICENSE`). Copyright (C) 2026 Carlos Corral.
 The multimedia assets have their own licenses, documented here to make it clear
 what can and cannot be done with each one.
 
@@ -19,7 +21,7 @@ what can and cannot be done with each one.
   this package ("digital-7 (mono).ttf" by Sizenko Alexander / Style-7) is
   *freeware for personal use only* ("Freeware for personal use. For commercial
   use please contact us."), a license incompatible with the public redistribution
-  of this plasmoid under GPL-3.0. It was replaced by DSEG7-Classic, which
+  of this plasmoid under the GPL. It was replaced by DSEG7-Classic, which
   mimics the same 7-segment LCD display style, is monospaced, and is
   completely free.
 - **Font style option:** the four bundled variants (Regular, Bold, Italic,

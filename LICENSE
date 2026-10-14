@@ -472,9 +472,17 @@ sale, or importing the Program or any portion of it.
 
   A "contributor" is a copyright holder who authorizes use under this
 License of the Program or a work on which the Program is based.  The
-Program is licensed to each contributor subject to the terms of this
-License.  You cannot impose any further restrictions on the recipients'
-exercise of the rights granted or affirmed under this License.
+work thus licensed is called the contributor's "contributor version".
+
+  A contributor's "essential patent claims" are all patent claims
+owned or controlled by the contributor, whether already acquired or
+hereafter acquired, that would be infringed by some manner, permitted
+by this License, of making, using, or selling its contributor version,
+but do not include claims that would be infringed only as a
+consequence of further modification of the contributor version.  For
+purposes of this definition, "control" includes the right to grant
+patent sublicenses in a manner consistent with the requirements of
+this License.
 
   Each contributor grants you a non-exclusive, worldwide, royalty-free
 patent license under the contributor's essential patent claims, to
@@ -535,9 +543,9 @@ otherwise be available to you under applicable patent law.
 otherwise) that contradict the conditions of this License, they do not
 excuse you from the conditions of this License.  If you cannot convey a
 covered work so as to satisfy simultaneously your obligations under this
-License and any other pertinent obligations, then as a consequence you
-may not convey it at all.  For example, if you agree to terms that obligate
-you to collect a royalty for further conveying from those to whom you convey
+License and any other pertinent obligations, then as a consequence you may
+not convey it at all.  For example, if you agree to terms that obligate you
+to collect a royalty for further conveying from those to whom you convey
 the Program, the only way you could satisfy both those terms and this
 License would be to refrain entirely from conveying the Program.
 
@@ -564,14 +572,14 @@ Program specifies that a certain numbered version of the GNU General
 Public License "or any later version" applies to it, you have the
 option of following the terms and conditions either of that numbered
 version or of any later version published by the Free Software
-Foundation.  If the Program does not specify a version number of this
-License, you may choose any version ever published by the Free Software
-Foundation.
+Foundation.  If the Program does not specify a version number of the
+GNU General Public License, you may choose any version ever published
+by the Free Software Foundation.
 
-  If the Program specifies that a proxy can decide or can choose to
-apply future versions to the Program, then the proxy's public statement
-of acceptance of a version permanently authorizes you to choose that
-version for the Program.
+  If the Program specifies that a proxy can decide which future
+versions of the GNU General Public License can be used, that proxy's
+public statement of acceptance of a version permanently authorizes you
+to choose that version for the Program.
 
   Later license versions may give you additional or different
 permissions.  However, no additional obligations are imposed on any
@@ -601,39 +609,16 @@ PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER PROGRAMS),
 EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGES.
 
-  17. If, as a consequence of a court judgment or allegation of patent
-infringement or for any other reason (not limited to patent issues),
-conditions are imposed on you (whether by court order, agreement or
-otherwise) that contradict the conditions of this License, they do not
-excuse you from the conditions of this License.  If you cannot convey a
-covered work so as to satisfy simultaneously your obligations under this
-License and any other pertinent obligations, then as a consequence you
-may not convey it at all.  For example, if you agree to terms that obligate
-you to collect a royalty for further conveying from those to whom you convey
-the Program, the only way you could satisfy both those terms and this
-License would be to refrain entirely from conveying the Program.
+  17. Interpretation of Sections 15 and 16.
 
-  18. If you convey a covered work, and you incorporate it into a larger
-program that is itself covered, then the recipient of the larger program
-must also receive the license, and the license must apply to the entire
-program.  The recipient must also receive the Corresponding Source for
-the covered work, as described in section 6, or if the recipient already
-has it, must provide it upon request.
+  If the disclaimer of warranty and limitation of liability provided
+above cannot be given local legal effect according to their terms,
+reviewing courts shall apply local law that most closely approximates
+an absolute waiver of all civil liability in connection with the
+Program, unless a warranty or assumption of liability accompanies a
+copy of the Program in return for a fee.
 
-  19. This License does not grant permission to use the trade names,
-trademarks, service marks, or product names of the Licensor, except as
-required for reasonable and customary use in describing the origin of
-the work and reproducing the content of the NOTICE file.
-
-  20. The Program is provided "as is", without warranty of any kind,
-express or implied, including but not limited to the warranties of
-merchantability, fitness for a particular purpose and noninfringement.
-In no event shall the authors or copyright holders be liable for any
-claim, damages or other liability, whether in an action of contract,
-tort or otherwise, arising from, out of or in connection with the
-Program or the use or other dealings in the Program.
-
-                    END OF TERMS AND CONDITIONS
+                     END OF TERMS AND CONDITIONS
 
             How to Apply These Terms to Your New Programs
 
