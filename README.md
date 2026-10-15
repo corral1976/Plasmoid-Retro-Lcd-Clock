@@ -1,9 +1,9 @@
 # Retro LCD 7-Segment Clock (Plasmoid)
 
-[![build](https://img.shields.io/github/actions/workflow/status/corral1976/plasma-applet-relojlcd/ci.yml?style=flat-square&label=build&labelColor=282828&color=b8bb26)](https://github.com/corral1976/plasma-applet-relojlcd/actions)
 [![Latest Release](https://img.shields.io/github/v/release/corral1976/plasma-applet-relojlcd)](https://github.com/corral1976/plasma-applet-relojlcd/releases)
 [![stars](https://img.shields.io/github/stars/corral1976/plasma-applet-relojlcd?style=flat-square&label=stars&labelColor=282828&color=d79921)](https://github.com/corral1976/plasma-applet-relojlcd)
 [![License: GPL-3.0-or-later](https://img.shields.io/badge/License-GPL--3.0--or--later-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![build](https://img.shields.io/github/actions/workflow/status/corral1976/plasma-applet-relojlcd/ci.yml?style=flat-square&label=build&labelColor=282828&color=b8bb26)](https://github.com/corral1976/plasma-applet-relojlcd/actions)
 
 A digital clock widget with a retro 7-segment LCD aesthetic for your KDE Plasma 6 desktop. Minimalist design, lightweight, and with an authentic vintage touch.
 
