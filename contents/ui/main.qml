@@ -10,71 +10,38 @@ import "../code/colorUtils.js" as ColorUtils
 
 PlasmoidItem {
     id: root
-    
+
     preferredRepresentation: fullRepresentation
     Plasmoid.backgroundHints: PlasmaCore.Types.NoBackground
     Plasmoid.contextualActions: [
         PlasmaCore.Action {
-            text: i18nc("Snooze the currently ringing alarm", "Snooze alarm (%1 min)", cfg_snoozeMinutes)
+            text: i18nc("Snooze the currently ringing alarm", "Snooze alarm (%1 min)", Plasmoid.configuration.snoozeMinutes)
             icon.name: "media-playback-pause"
             visible: alarmActive
             onTriggered: snoozeAlarm()
         }
     ]
 
-    FontLoader {
-        id: fontRegular
-        source: "../assets/DSEG7Classic-Regular.ttf"
-    }
-    FontLoader {
-        id: fontBold
-        source: "../assets/DSEG7Classic-Bold.ttf"
-    }
-    FontLoader {
-        id: fontItalic
-        source: "../assets/DSEG7Classic-Italic.ttf"
-    }
-    FontLoader {
-        id: fontBoldItalic
-        source: "../assets/DSEG7Classic-BoldItalic.ttf"
-    }
-    FontLoader {
-        id: fontDotMatrixRegular
-        source: "../assets/DotMatrix-Regular.ttf"
-    }
-    FontLoader {
-        id: fontDotMatrixBold
-        source: "../assets/DotMatrix-Bold.ttf"
-    }
-    FontLoader {
-        id: fontDotMatrixItalic
-        source: "../assets/DotMatrix-Italic.ttf"
-    }
-    FontLoader {
-        id: fontDotMatrixBoldItalic
-        source: "../assets/DotMatrix-BoldItalic.ttf"
+    ClockFonts {
+        id: clockFonts
+        family: Plasmoid.configuration.fontFamily
     }
 
-    readonly property string activeFontFamily: {
-        if (cfg_fontFamily === "DotMatrix") {
-            return fontDotMatrixRegular.status === FontLoader.Ready ? fontDotMatrixRegular.name : "monospace"
-        }
-        return fontRegular.status === FontLoader.Ready ? fontRegular.name : "monospace"
-    }
-    readonly property bool activeFontBold: cfg_fontStyle === "Bold" || cfg_fontStyle === "Bold Italic"
-    readonly property bool activeFontItalic: cfg_fontStyle === "Italic" || cfg_fontStyle === "Bold Italic"
-    readonly property real fontVerticalCorrection: cfg_fontFamily === "DotMatrix" ? Math.round(digitFontSize * 0.10) : 0
-    readonly property real vFontVerticalCorrection: cfg_fontFamily === "DotMatrix" ? Math.round(vGroupFontSize * 0.10) : 0
+    readonly property string activeFontFamily: clockFonts.name
+    readonly property bool activeFontBold: Plasmoid.configuration.fontStyle === "Bold" || Plasmoid.configuration.fontStyle === "Bold Italic"
+    readonly property bool activeFontItalic: Plasmoid.configuration.fontStyle === "Italic" || Plasmoid.configuration.fontStyle === "Bold Italic"
+    readonly property real fontVerticalCorrection: Plasmoid.configuration.fontFamily === "DotMatrix" ? Math.round(digitFontSize * 0.10) : 0
+    readonly property real vFontVerticalCorrection: Plasmoid.configuration.fontFamily === "DotMatrix" ? Math.round(vGroupFontSize * 0.10) : 0
 
     readonly property bool horizontalPanel: Plasmoid.formFactor === PlasmaCore.Types.Horizontal
     readonly property bool verticalPanel: Plasmoid.formFactor === PlasmaCore.Types.Vertical
     readonly property bool planarMode: !horizontalPanel && !verticalPanel
     readonly property real referenceHeight: 120
     readonly property int naturalWidthEstimate: {
-        var digitCount = cfg_showSeconds ? 6 : 4
-        var colonCount = cfg_showSeconds ? 2 : 1
+        var digitCount = Plasmoid.configuration.showSeconds ? 6 : 4
+        var colonCount = Plasmoid.configuration.showSeconds ? 2 : 1
         var estimate = digitCount * 18 + colonCount * 9 + (digitCount + colonCount - 1) + 24
-        if (!cfg_use24HourFormat) {
+        if (!Plasmoid.configuration.use24HourFormat) {
             estimate += 20
         }
         return estimate
@@ -93,20 +60,20 @@ PlasmoidItem {
         } else {
             baseScale = 1.0
         }
-        return baseScale * cfg_fontScale
+        return baseScale * Plasmoid.configuration.fontScale
     }
     readonly property real vReferenceThickness: 40
     readonly property real vSizeScale: {
         if (verticalPanel && Plasmoid.width > 0) {
-            return Math.max(0.4, Math.min(1.6, Plasmoid.width / vReferenceThickness)) * cfg_fontScale
+            return Math.max(0.4, Math.min(1.6, Plasmoid.width / vReferenceThickness)) * Plasmoid.configuration.fontScale
         } else if (planarMode) {
-            return Math.max(0.4, Math.min(1.6, Math.min(Plasmoid.width, Plasmoid.height) / vReferenceThickness)) * cfg_fontScale
+            return Math.max(0.4, Math.min(1.6, Math.min(Plasmoid.width, Plasmoid.height) / vReferenceThickness)) * Plasmoid.configuration.fontScale
         }
-        return cfg_fontScale
+        return Plasmoid.configuration.fontScale
     }
     readonly property int vGroupFontSize: Math.max(8, Math.round(15 * vSizeScale))
     readonly property int vDotSize: Math.max(1, Math.round(2 * vSizeScale))
-    readonly property real condensedFactor: cfg_layoutCondensed ? 0.82 : 1.0
+    readonly property real condensedFactor: Plasmoid.configuration.layoutCondensed ? 0.82 : 1.0
     readonly property real layoutScale: sizeScale * condensedFactor
 
     readonly property real containerRadius: 16
@@ -114,8 +81,6 @@ PlasmoidItem {
     readonly property int planarMinimumWidth: 20
     readonly property int planarMinimumHeight: 15
     readonly property real vCharBoxWidthRatio: 0.7
-    readonly property real colonDotSizeRatio: 0.09
-    readonly property real colonDotSpacingRatio: 0.2
     readonly property real colonHorizontalNudge: Math.round(digitFontSize * 0.15 * condensedFactor)
     readonly property int containerPadding: {
         if (planarMode && Plasmoid.height > 0) {
@@ -125,80 +90,42 @@ PlasmoidItem {
     }
     readonly property int digitFontSize: {
         if (planarMode && Plasmoid.height > 0) {
-            return Math.max(4, Math.round(Plasmoid.height * 0.4 * cfg_fontScale))
+            return Math.max(4, Math.round(Plasmoid.height * 0.4 * Plasmoid.configuration.fontScale))
         }
-        return Math.max(6, Math.round((cfg_showDate ? 11 : 15) * sizeScale))
+        return Math.max(6, Math.round((Plasmoid.configuration.showDate ? 11 : 15) * sizeScale))
     }
     readonly property int ampmFontSize: {
         if (planarMode && Plasmoid.height > 0) {
-            return Math.max(3, Math.round(Plasmoid.height * 0.3 * cfg_fontScale))
+            return Math.max(3, Math.round(Plasmoid.height * 0.3 * Plasmoid.configuration.fontScale))
         }
-        return Math.max(5, Math.round((cfg_showDate ? 8 : 12) * sizeScale))
+        return Math.max(5, Math.round((Plasmoid.configuration.showDate ? 8 : 12) * sizeScale))
     }
     readonly property int dateFontSize: {
         if (planarMode && Plasmoid.height > 0) {
-            return Math.max(3, Math.round(Plasmoid.height * 0.2 * cfg_fontScale))
+            return Math.max(3, Math.round(Plasmoid.height * 0.2 * Plasmoid.configuration.fontScale))
         }
         return Math.max(5, Math.round(8 * sizeScale))
     }
     readonly property int dotSize: {
         if (planarMode && Plasmoid.height > 0) {
-            return Math.max(1, Math.round(Plasmoid.height * 0.0375 * cfg_fontScale))
+            return Math.max(1, Math.round(Plasmoid.height * 0.0375 * Plasmoid.configuration.fontScale))
         }
         return Math.max(1, Math.round(2 * sizeScale))
     }
     
-    property bool cfg_showSeconds: plasmoid.configuration.showSeconds !== undefined ? plasmoid.configuration.showSeconds : true
-    property bool cfg_blinkDots: plasmoid.configuration.blinkDots !== undefined ? plasmoid.configuration.blinkDots : true
-    property bool cfg_showShadow: plasmoid.configuration.showShadow !== undefined ? plasmoid.configuration.showShadow : true
-    property bool cfg_flickerEffect: plasmoid.configuration.flickerEffect !== undefined ? plasmoid.configuration.flickerEffect : false
-    property bool cfg_ghostSegments: plasmoid.configuration.ghostSegments !== undefined ? plasmoid.configuration.ghostSegments : false
-    property bool cfg_crtScanlines: plasmoid.configuration.crtScanlines !== undefined ? plasmoid.configuration.crtScanlines : false
-    property bool cfg_minuteFlicker: plasmoid.configuration.minuteFlicker !== undefined ? plasmoid.configuration.minuteFlicker : false
-    property string cfg_clockStyle: {
-        var style = plasmoid.configuration.clockStyle !== undefined ? plasmoid.configuration.clockStyle : "Neon Green"
-        var validStyles = ["Neon Green", "Vintage Amber", "Sapphire Blue", "Ruby Red", "White Led", "VFD Teal", "Nixie Orange", "Retro LCD", "Custom"]
-        if (validStyles.indexOf(style) === -1) {
-            style = "Neon Green"
-        }
-        return style
-    }
-    property string cfg_customColor: {
-        var hex = plasmoid.configuration.customColor !== undefined ? plasmoid.configuration.customColor : "#00ff00"
-        return ColorUtils.isValidHexColor(hex) ? hex : "#00ff00"
-    }
-    property string cfg_fontStyle: {
-        var fStyle = plasmoid.configuration.fontStyle !== undefined ? plasmoid.configuration.fontStyle : "Regular"
-        var validFontStyles = ["Regular", "Bold", "Italic", "Bold Italic"]
-        if (validFontStyles.indexOf(fStyle) === -1) {
-            fStyle = "Regular"
-        }
-        return fStyle
-    }
-    property string cfg_fontFamily: {
-        var family = plasmoid.configuration.fontFamily !== undefined ? plasmoid.configuration.fontFamily : "DSEG7"
-        var validFontFamilies = ["DSEG7", "DotMatrix"]
-        if (validFontFamilies.indexOf(family) === -1) {
-            family = "DSEG7"
-        }
-        return family
-    }
-    property bool cfg_layoutCondensed: plasmoid.configuration.layoutCondensed !== undefined ? plasmoid.configuration.layoutCondensed : false
-    property bool cfg_use24HourFormat: plasmoid.configuration.use24HourFormat !== undefined ? plasmoid.configuration.use24HourFormat : true
-    property bool cfg_showDate: plasmoid.configuration.showDate !== undefined ? plasmoid.configuration.showDate : false
-    property bool cfg_alarmEnabled: plasmoid.configuration.alarmEnabled !== undefined ? plasmoid.configuration.alarmEnabled : false
-    property int cfg_alarmHour: plasmoid.configuration.alarmHour !== undefined ? plasmoid.configuration.alarmHour : 7
-    property int cfg_alarmMinute: plasmoid.configuration.alarmMinute !== undefined ? plasmoid.configuration.alarmMinute : 0
-    property string cfg_alarmAmPm: plasmoid.configuration.alarmAmPm !== undefined ? plasmoid.configuration.alarmAmPm : "AM"
-    property int cfg_snoozeMinutes: plasmoid.configuration.snoozeMinutes !== undefined ? plasmoid.configuration.snoozeMinutes : 5
-    property bool cfg_startupTest: plasmoid.configuration.startupTest !== undefined ? plasmoid.configuration.startupTest : false
-    property real cfg_fontScale: plasmoid.configuration.fontScale !== undefined ? plasmoid.configuration.fontScale : 1.0
 
-    readonly property var activeStyle: ColorUtils.getStyleComponents(cfg_clockStyle, cfg_customColor)
+    readonly property var activeStyle: ColorUtils.getStyleComponents(Plasmoid.configuration.clockStyle, Plasmoid.configuration.customColor)
     readonly property color activeBgColor: Qt.rgba(activeStyle.bg[0], activeStyle.bg[1], activeStyle.bg[2], activeStyle.bg[3])
     readonly property color activeTextColor: Qt.rgba(activeStyle.text[0], activeStyle.text[1], activeStyle.text[2], activeStyle.text[3])
     readonly property color activeShadowColor: Qt.rgba(activeStyle.shadow[0], activeStyle.shadow[1], activeStyle.shadow[2], activeStyle.shadow[3])
     readonly property color activeBorderColor: Qt.rgba(activeStyle.border[0], activeStyle.border[1], activeStyle.border[2], activeStyle.border[3])
+    readonly property int alarmHour24: {
+        if (Plasmoid.configuration.use24HourFormat) {
+            return Plasmoid.configuration.alarmHour
+        }
+        var hour12 = Plasmoid.configuration.alarmHour % 12
+        return Plasmoid.configuration.alarmAmPm === "PM" ? hour12 + 12 : hour12
+    }
 
     property string currentTimeStr: "88:88:88"
     property string currentDateStr: "88/88/88"
@@ -206,7 +133,7 @@ PlasmoidItem {
     property bool dotState: true
     property real flickerOpacity: 1.0
     property real minuteFlickerOpacity: 1.0
-    property real lampTestOpacity: cfg_startupTest ? 1.0 : 0.0
+    property real lampTestOpacity: Plasmoid.configuration.startupTest ? 1.0 : 0.0
     property int lastMinute: -1
     property var timeDigits: ["8", "8", ":", "8", "8", ":", "8", "8"]
     property bool alarmActive: false
@@ -226,92 +153,17 @@ PlasmoidItem {
         loops: MediaPlayer.Infinite
     }
 
-    PlasmaCore.Dialog {
-        id: alarmDialog
+    AlarmDialog {
         visible: alarmActive
-        visualParent: container
+        visualParent: root
         location: Plasmoid.location
-        flags: Qt.WindowStaysOnTopHint
-
-        mainItem: Item {
-            width: 230
-            height: 110
-
-            Rectangle {
-                anchors.fill: parent
-                color: activeBgColor
-                border.color: activeBorderColor
-                border.width: 2
-                radius: 8
-
-                ColumnLayout {
-                    anchors.fill: parent
-                    anchors.margins: 14
-                    spacing: 12
-
-                    Text {
-                        Layout.alignment: Qt.AlignHCenter
-                        text: i18n("Alarm")
-                        font.family: activeFontFamily
-                        font.bold: true
-                        font.pixelSize: 18
-                        color: activeTextColor
-                    }
-
-                    RowLayout {
-                        Layout.alignment: Qt.AlignHCenter
-                        spacing: 12
-
-                        Rectangle {
-                            width: 90
-                            height: 32
-                            radius: 4
-                            color: stopArea.containsMouse ? Qt.lighter(activeBgColor, 1.6) : activeBgColor
-                            border.color: activeBorderColor
-                            border.width: 1
-
-                            Text {
-                                anchors.centerIn: parent
-                                text: i18n("Stop")
-                                color: activeTextColor
-                            }
-
-                            MouseArea {
-                                id: stopArea
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                cursorShape: Qt.PointingHandCursor
-                                onClicked: stopAlarm()
-                            }
-                        }
-
-                        Rectangle {
-                            width: 110
-                            height: 32
-                            radius: 4
-                            color: snoozeArea.containsMouse ? Qt.lighter(activeBgColor, 1.6) : activeBgColor
-                            border.color: activeBorderColor
-                            border.width: 1
-
-                            Text {
-                                anchors.centerIn: parent
-                                text: i18nc("Snooze the alarm for N minutes", "Snooze (%1 min)", cfg_snoozeMinutes)
-                                color: activeTextColor
-                                font.pixelSize: 11
-                            }
-
-                            MouseArea {
-                                id: snoozeArea
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                cursorShape: Qt.PointingHandCursor
-                                onClicked: snoozeAlarm()
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        backgroundColor: activeBgColor
+        borderColor: activeBorderColor
+        textColor: activeTextColor
+        fontFamily: activeFontFamily
+        snoozeMinutes: Plasmoid.configuration.snoozeMinutes
+        onStopRequested: stopAlarm()
+        onSnoozeRequested: snoozeAlarm()
     }
 
     Timer {
@@ -354,7 +206,7 @@ PlasmoidItem {
         id: blinkTimer
         interval: 500
         repeat: true
-        running: cfg_blinkDots
+        running: Plasmoid.configuration.blinkDots
         onTriggered: {
             dotState = !dotState
         }
@@ -364,7 +216,7 @@ PlasmoidItem {
         id: flickerTimer
         interval: 120
         repeat: true
-        running: cfg_flickerEffect
+        running: Plasmoid.configuration.flickerEffect
         onTriggered: {
             var r = Math.random()
             if (r < 0.1) {
@@ -391,7 +243,7 @@ PlasmoidItem {
 
     SequentialAnimation {
         id: lampTestAnimation
-        running: cfg_startupTest
+        running: Plasmoid.configuration.startupTest
         PauseAnimation { duration: 1800 }
         NumberAnimation { target: root; property: "lampTestOpacity"; to: 0.0; duration: 700; easing.type: Easing.InQuad }
     }
@@ -405,7 +257,7 @@ PlasmoidItem {
         var month = now.getMonth() + 1
         var year = now.getFullYear().toString().slice(-2)
 
-        if (!cfg_use24HourFormat) {
+        if (!Plasmoid.configuration.use24HourFormat) {
             ampmIndicator = hours >= 12 ? "PM" : "AM"
             hours = hours % 12
             if (hours === 0) {
@@ -426,7 +278,7 @@ PlasmoidItem {
         var mo1 = Math.floor(month / 10)
         var mo2 = month % 10
 
-        if (cfg_showSeconds) {
+        if (Plasmoid.configuration.showSeconds) {
             timeDigits = [h1.toString(), h2.toString(), ":", m1.toString(), m2.toString(), ":", s1.toString(), s2.toString()]
         } else {
             timeDigits = [h1.toString(), h2.toString(), ":", m1.toString(), m2.toString()]
@@ -435,14 +287,14 @@ PlasmoidItem {
         currentDateStr = d1.toString() + d2.toString() + "/" + mo1.toString() + mo2.toString() + "/" + year
         currentTimeStr = timeDigits.join("")
 
-        if (cfg_minuteFlicker && lastMinute !== -1 && minutes !== lastMinute) {
+        if (Plasmoid.configuration.minuteFlicker && lastMinute !== -1 && minutes !== lastMinute) {
             minuteFlickerAnimation.restart()
         }
         lastMinute = minutes
     }
 
     function checkAlarm() {
-        if (!cfg_alarmEnabled) {
+        if (!Plasmoid.configuration.alarmEnabled) {
             snoozeActive = false
             return
         }
@@ -460,20 +312,11 @@ PlasmoidItem {
         var currentHour = now.getHours()
         var currentMinute = now.getMinutes()
 
-        var alarmHour24 = cfg_alarmHour
-        if (!cfg_use24HourFormat) {
-            if (cfg_alarmAmPm === "PM" && cfg_alarmHour !== 12) {
-                alarmHour24 = cfg_alarmHour + 12
-            } else if (cfg_alarmAmPm === "AM" && cfg_alarmHour === 12) {
-                alarmHour24 = 0
-            }
-        }
-
         if (currentMinute !== alarmTriggeredMinute) {
             alarmTriggeredMinute = -1
         }
 
-        if (currentHour === alarmHour24 && currentMinute === cfg_alarmMinute && !alarmActive && alarmTriggeredMinute === -1) {
+        if (currentHour === alarmHour24 && currentMinute === Plasmoid.configuration.alarmMinute && !alarmActive && alarmTriggeredMinute === -1) {
             startAlarm()
         }
     }
@@ -505,7 +348,7 @@ PlasmoidItem {
         alarmPlayer.stop()
         snoozeActive = true
         var now = new Date()
-        snoozeUntil = new Date(now.getTime() + cfg_snoozeMinutes * 60000)
+        snoozeUntil = new Date(now.getTime() + Plasmoid.configuration.snoozeMinutes * 60000)
     }
 
     fullRepresentation: Rectangle {
@@ -529,25 +372,25 @@ PlasmoidItem {
             visible: !verticalPanel
             anchors.centerIn: parent
             spacing: Math.max(2, Math.round(4 * (planarMode ? 1.0 : sizeScale)))
-            opacity: (cfg_flickerEffect ? flickerOpacity : 1.0) * (cfg_minuteFlicker ? minuteFlickerOpacity : 1.0)
+            opacity: (Plasmoid.configuration.flickerEffect ? flickerOpacity : 1.0) * (Plasmoid.configuration.minuteFlicker ? minuteFlickerOpacity : 1.0)
             transform: Scale {
                 origin.x: contentRow.width / 2
                 origin.y: contentRow.height / 2
-                xScale: planarMode ? Math.max(0.5, Math.min(5.0, container.height / 50 * cfg_fontScale)) : 1.0
-                yScale: planarMode ? Math.max(0.5, Math.min(5.0, container.height / 50 * cfg_fontScale)) : 1.0
+                xScale: planarMode ? Math.max(0.5, Math.min(5.0, container.height / 50 * Plasmoid.configuration.fontScale)) : 1.0
+                yScale: planarMode ? Math.max(0.5, Math.min(5.0, container.height / 50 * Plasmoid.configuration.fontScale)) : 1.0
             }
 
             AlarmDot {
                 anchors.verticalCenter: parent.verticalCenter
                 size: dotSize
-                enabled: cfg_alarmEnabled
+                alarmEnabled: Plasmoid.configuration.alarmEnabled
                 active: alarmActive
                 blinkState: alarmBlinkState
                 snoozing: snoozeActive
                 mainColor: activeTextColor
                 shadowColor: activeShadowColor
-                showShadow: cfg_showShadow
-                showGhost: cfg_ghostSegments
+                showShadow: Plasmoid.configuration.showShadow
+                showGhost: Plasmoid.configuration.ghostSegments
                 testOverlayOpacity: lampTestOpacity
             }
 
@@ -557,13 +400,13 @@ PlasmoidItem {
                 Row {
                     id: timeRow
                     anchors.horizontalCenter: parent.horizontalCenter
-                    spacing: cfg_layoutCondensed ? 0 : Math.max(0, Math.round(1 * sizeScale))
+                    spacing: Plasmoid.configuration.layoutCondensed ? 0 : Math.max(0, Math.round(1 * sizeScale))
 
                     Repeater {
                         model: timeDigits.length
                         delegate: Item {
-                            width: Math.max(4, Math.round((timeDigits[index] === ":" ? (cfg_showSeconds ? (cfg_showDate ? 5 : 7) : (cfg_showDate ? 7 : 9)) : (cfg_showSeconds ? (cfg_showDate ? 10 : 14) : (cfg_showDate ? 12 : 18))) * layoutScale))
-                            height: Math.max(6, Math.round((cfg_showDate ? 13 : 17) * sizeScale))
+                            width: Math.max(4, Math.round((timeDigits[index] === ":" ? (Plasmoid.configuration.showSeconds ? (Plasmoid.configuration.showDate ? 5 : 7) : (Plasmoid.configuration.showDate ? 7 : 9)) : (Plasmoid.configuration.showSeconds ? (Plasmoid.configuration.showDate ? 10 : 14) : (Plasmoid.configuration.showDate ? 12 : 18))) * layoutScale))
+                            height: Math.max(6, Math.round((Plasmoid.configuration.showDate ? 13 : 17) * sizeScale))
 
                             Text {
                                 anchors.verticalCenter: parent.verticalCenter
@@ -577,8 +420,8 @@ PlasmoidItem {
                                 renderType: Text.QtRendering
                                 color: activeTextColor
                                 text: "8"
-                                visible: timeDigits[index] !== ":" && (cfg_ghostSegments || lampTestOpacity > 0)
-                                opacity: Math.max(cfg_ghostSegments ? 0.12 : 0, lampTestOpacity)
+                                visible: timeDigits[index] !== ":" && (Plasmoid.configuration.ghostSegments || lampTestOpacity > 0)
+                                opacity: Math.max(Plasmoid.configuration.ghostSegments ? 0.12 : 0, lampTestOpacity)
                                 z: -2
                             }
 
@@ -594,7 +437,7 @@ PlasmoidItem {
                                 renderType: Text.QtRendering
                                 color: activeShadowColor
                                 text: timeDigits[index]
-                                visible: timeDigits[index] !== ":" && cfg_showShadow
+                                visible: timeDigits[index] !== ":" && Plasmoid.configuration.showShadow
                                 opacity: 1 - lampTestOpacity
                             }
 
@@ -614,73 +457,17 @@ PlasmoidItem {
                                 opacity: 1 - lampTestOpacity
                             }
 
-                            Column {
-                                anchors.centerIn: parent
-                                anchors.horizontalCenterOffset: colonHorizontalNudge
-                                spacing: Math.round(digitFontSize * colonDotSpacingRatio)
-                                visible: timeDigits[index] === ":" && (cfg_ghostSegments || lampTestOpacity > 0)
-
-                                Rectangle {
-                                    width: Math.round(digitFontSize * colonDotSizeRatio)
-                                    height: Math.round(digitFontSize * colonDotSizeRatio)
-                                    radius: width / 2
-                                    color: activeTextColor
-                                    opacity: Math.max(cfg_ghostSegments ? 0.12 : 0, lampTestOpacity)
-                                }
-                                Rectangle {
-                                    width: Math.round(digitFontSize * colonDotSizeRatio)
-                                    height: Math.round(digitFontSize * colonDotSizeRatio)
-                                    radius: width / 2
-                                    color: activeTextColor
-                                    opacity: Math.max(cfg_ghostSegments ? 0.12 : 0, lampTestOpacity)
-                                }
-                            }
-                            Column {
-                                anchors.centerIn: parent
-                                anchors.horizontalCenterOffset: colonHorizontalNudge
-                                spacing: Math.round(digitFontSize * colonDotSpacingRatio)
+                            ColonSeparator {
+                                anchors.fill: parent
                                 visible: timeDigits[index] === ":"
-
-                                Rectangle {
-                                    width: Math.round(digitFontSize * colonDotSizeRatio)
-                                    height: Math.round(digitFontSize * colonDotSizeRatio)
-                                    radius: width / 2
-                                    color: activeTextColor
-                                    visible: !cfg_blinkDots || dotState
-                                    opacity: 1 - lampTestOpacity
-                                }
-                                Rectangle {
-                                    width: Math.round(digitFontSize * colonDotSizeRatio)
-                                    height: Math.round(digitFontSize * colonDotSizeRatio)
-                                    radius: width / 2
-                                    color: activeTextColor
-                                    visible: !cfg_blinkDots || dotState
-                                    opacity: 1 - lampTestOpacity
-                                }
-                            }
-                            Column {
-                                anchors.centerIn: parent
-                                anchors.horizontalCenterOffset: 2 + colonHorizontalNudge
-                                anchors.verticalCenterOffset: 2
-                                spacing: Math.round(digitFontSize * colonDotSpacingRatio)
-                                visible: timeDigits[index] === ":" && cfg_showShadow
-
-                                Rectangle {
-                                    width: Math.round(digitFontSize * colonDotSizeRatio)
-                                    height: Math.round(digitFontSize * colonDotSizeRatio)
-                                    radius: width / 2
-                                    color: activeShadowColor
-                                    visible: !cfg_blinkDots || dotState
-                                    opacity: 1 - lampTestOpacity
-                                }
-                                Rectangle {
-                                    width: Math.round(digitFontSize * colonDotSizeRatio)
-                                    height: Math.round(digitFontSize * colonDotSizeRatio)
-                                    radius: width / 2
-                                    color: activeShadowColor
-                                    visible: !cfg_blinkDots || dotState
-                                    opacity: 1 - lampTestOpacity
-                                }
+                                fontSize: digitFontSize
+                                horizontalNudge: colonHorizontalNudge
+                                mainColor: activeTextColor
+                                shadowColor: activeShadowColor
+                                showShadow: Plasmoid.configuration.showShadow
+                                showGhost: Plasmoid.configuration.ghostSegments
+                                dotsVisible: !Plasmoid.configuration.blinkDots || dotState
+                                testOverlayOpacity: lampTestOpacity
                             }
                         }
                     }
@@ -689,7 +476,7 @@ PlasmoidItem {
                         anchors.verticalCenter: parent.verticalCenter
                         implicitWidth: ampmText.implicitWidth
                         implicitHeight: ampmText.implicitHeight
-                        visible: !cfg_use24HourFormat
+                        visible: !Plasmoid.configuration.use24HourFormat
                         ShadowedText {
                             id: ampmText
                             anchors.centerIn: parent
@@ -700,8 +487,8 @@ PlasmoidItem {
                             italic: activeFontItalic
                             mainColor: activeTextColor
                             shadowColor: activeShadowColor
-                            showShadow: cfg_showShadow
-                            showGhost: cfg_ghostSegments
+                            showShadow: Plasmoid.configuration.showShadow
+                            showGhost: Plasmoid.configuration.ghostSegments
                             testOverlayOpacity: lampTestOpacity
                             verticalCorrection: fontVerticalCorrection
                             ghostText: "AM"
@@ -713,7 +500,7 @@ PlasmoidItem {
                     id: dateRow
                     anchors.horizontalCenter: parent.horizontalCenter
                     spacing: 1
-                    visible: cfg_showDate
+                    visible: Plasmoid.configuration.showDate
 
                     Item {
                         implicitWidth: dateText.implicitWidth
@@ -728,8 +515,8 @@ PlasmoidItem {
                             italic: activeFontItalic
                             mainColor: activeTextColor
                             shadowColor: activeShadowColor
-                            showShadow: cfg_showShadow
-                            showGhost: cfg_ghostSegments
+                            showShadow: Plasmoid.configuration.showShadow
+                            showGhost: Plasmoid.configuration.ghostSegments
                             testOverlayOpacity: lampTestOpacity
                             verticalCorrection: fontVerticalCorrection
                             ghostText: "88/88/88"
@@ -744,19 +531,19 @@ PlasmoidItem {
             visible: verticalPanel
             anchors.centerIn: parent
             spacing: Math.max(2, Math.round(3 * vSizeScale))
-            opacity: (cfg_flickerEffect ? flickerOpacity : 1.0) * (cfg_minuteFlicker ? minuteFlickerOpacity : 1.0)
+            opacity: (Plasmoid.configuration.flickerEffect ? flickerOpacity : 1.0) * (Plasmoid.configuration.minuteFlicker ? minuteFlickerOpacity : 1.0)
 
             AlarmDot {
                 anchors.horizontalCenter: parent.horizontalCenter
                 size: vDotSize
-                enabled: cfg_alarmEnabled
+                alarmEnabled: Plasmoid.configuration.alarmEnabled
                 active: alarmActive
                 blinkState: alarmBlinkState
                 snoozing: snoozeActive
                 mainColor: activeTextColor
                 shadowColor: activeShadowColor
-                showShadow: cfg_showShadow
-                showGhost: cfg_ghostSegments
+                showShadow: Plasmoid.configuration.showShadow
+                showGhost: Plasmoid.configuration.ghostSegments
                 testOverlayOpacity: lampTestOpacity
             }
 
@@ -776,85 +563,30 @@ PlasmoidItem {
                         italic: activeFontItalic
                         mainColor: activeTextColor
                         shadowColor: activeShadowColor
-                        showShadow: cfg_showShadow
-                        showGhost: cfg_ghostSegments
+                        showShadow: Plasmoid.configuration.showShadow
+                        showGhost: Plasmoid.configuration.ghostSegments
                         testOverlayOpacity: lampTestOpacity
                         verticalCorrection: vFontVerticalCorrection
                         ghostText: "8"
                         visible: modelData !== ":"
                     }
-                    Column {
-                        anchors.centerIn: parent
-                        spacing: Math.round(vGroupFontSize * colonDotSpacingRatio)
-                        visible: modelData === ":" && (cfg_ghostSegments || lampTestOpacity > 0)
-
-                        Rectangle {
-                            width: Math.round(vGroupFontSize * colonDotSizeRatio)
-                            height: Math.round(vGroupFontSize * colonDotSizeRatio)
-                            radius: width / 2
-                            color: activeTextColor
-                            opacity: Math.max(cfg_ghostSegments ? 0.12 : 0, lampTestOpacity)
-                        }
-                        Rectangle {
-                            width: Math.round(vGroupFontSize * colonDotSizeRatio)
-                            height: Math.round(vGroupFontSize * colonDotSizeRatio)
-                            radius: width / 2
-                            color: activeTextColor
-                            opacity: Math.max(cfg_ghostSegments ? 0.12 : 0, lampTestOpacity)
-                        }
-                    }
-                    Column {
-                        anchors.centerIn: parent
-                        spacing: Math.round(vGroupFontSize * colonDotSpacingRatio)
+                    ColonSeparator {
+                        anchors.fill: parent
                         visible: modelData === ":"
-
-                        Rectangle {
-                            width: Math.round(vGroupFontSize * colonDotSizeRatio)
-                            height: Math.round(vGroupFontSize * colonDotSizeRatio)
-                            radius: width / 2
-                            color: activeTextColor
-                            visible: !cfg_blinkDots || dotState
-                            opacity: 1 - lampTestOpacity
-                        }
-                        Rectangle {
-                            width: Math.round(vGroupFontSize * colonDotSizeRatio)
-                            height: Math.round(vGroupFontSize * colonDotSizeRatio)
-                            radius: width / 2
-                            color: activeTextColor
-                            visible: !cfg_blinkDots || dotState
-                            opacity: 1 - lampTestOpacity
-                        }
-                    }
-                    Column {
-                        anchors.centerIn: parent
-                        anchors.horizontalCenterOffset: 2
-                        anchors.verticalCenterOffset: 2
-                        spacing: Math.round(vGroupFontSize * colonDotSpacingRatio)
-                        visible: modelData === ":" && cfg_showShadow
-
-                        Rectangle {
-                            width: Math.round(vGroupFontSize * colonDotSizeRatio)
-                            height: Math.round(vGroupFontSize * colonDotSizeRatio)
-                            radius: width / 2
-                            color: activeShadowColor
-                            visible: !cfg_blinkDots || dotState
-                            opacity: 1 - lampTestOpacity
-                        }
-                        Rectangle {
-                            width: Math.round(vGroupFontSize * colonDotSizeRatio)
-                            height: Math.round(vGroupFontSize * colonDotSizeRatio)
-                            radius: width / 2
-                            color: activeShadowColor
-                            visible: !cfg_blinkDots || dotState
-                            opacity: 1 - lampTestOpacity
-                        }
+                        fontSize: vGroupFontSize
+                        mainColor: activeTextColor
+                        shadowColor: activeShadowColor
+                        showShadow: Plasmoid.configuration.showShadow
+                        showGhost: Plasmoid.configuration.ghostSegments
+                        dotsVisible: !Plasmoid.configuration.blinkDots || dotState
+                        testOverlayOpacity: lampTestOpacity
                     }
                 }
             }
 
             Item {
                 anchors.horizontalCenter: parent.horizontalCenter
-                visible: !cfg_use24HourFormat
+                visible: !Plasmoid.configuration.use24HourFormat
                 width: Math.round(vGroupFontSize * 0.9)
                 height: Math.round(vGroupFontSize * 0.7)
 
@@ -868,8 +600,8 @@ PlasmoidItem {
                     italic: activeFontItalic
                     mainColor: activeTextColor
                     shadowColor: activeShadowColor
-                    showShadow: cfg_showShadow
-                    showGhost: cfg_ghostSegments
+                    showShadow: Plasmoid.configuration.showShadow
+                    showGhost: Plasmoid.configuration.ghostSegments
                     testOverlayOpacity: lampTestOpacity
                     verticalCorrection: vFontVerticalCorrection
                     ghostText: "AM"
@@ -877,7 +609,7 @@ PlasmoidItem {
             }
 
             Repeater {
-                model: cfg_showDate ? currentDateStr.split("") : []
+                model: Plasmoid.configuration.showDate ? currentDateStr.split("") : []
                 delegate: Item {
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: Math.round(vGroupFontSize * vCharBoxWidthRatio)
@@ -892,8 +624,8 @@ PlasmoidItem {
                         italic: activeFontItalic
                         mainColor: activeTextColor
                         shadowColor: activeShadowColor
-                        showShadow: cfg_showShadow
-                        showGhost: cfg_ghostSegments
+                        showShadow: Plasmoid.configuration.showShadow
+                        showGhost: Plasmoid.configuration.ghostSegments
                         testOverlayOpacity: lampTestOpacity
                         verticalCorrection: vFontVerticalCorrection
                         ghostText: modelData === "/" ? "/" : "8"
@@ -915,7 +647,7 @@ PlasmoidItem {
         Canvas {
             id: scanlinesOverlay
             anchors.fill: parent
-            visible: cfg_crtScanlines
+            visible: Plasmoid.configuration.crtScanlines
             opacity: 0.15
             z: 10
 

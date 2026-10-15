@@ -12,52 +12,22 @@ import "../code/colorUtils.js" as ColorUtils
 KCM.SimpleKCM {
     id: appearancePage
 
+    property string cfg_clockStyle: "Neon Green"
+    property string cfg_fontFamily: "DSEG7"
+    property string cfg_fontStyle: "Regular"
     property alias cfg_showShadow: showShadowCheckBox.checked
     property alias cfg_customColor: customColorHolder.value
     property alias cfg_layoutCondensed: layoutCondensedCheckBox.checked
     property alias cfg_fontScale: fontScaleSlider.value
 
-    FontLoader {
-        id: previewFontRegular
-        source: "../assets/DSEG7Classic-Regular.ttf"
-    }
-    FontLoader {
-        id: previewFontBold
-        source: "../assets/DSEG7Classic-Bold.ttf"
-    }
-    FontLoader {
-        id: previewFontItalic
-        source: "../assets/DSEG7Classic-Italic.ttf"
-    }
-    FontLoader {
-        id: previewFontBoldItalic
-        source: "../assets/DSEG7Classic-BoldItalic.ttf"
-    }
-    FontLoader {
-        id: previewFontDotMatrixRegular
-        source: "../assets/DotMatrix-Regular.ttf"
-    }
-    FontLoader {
-        id: previewFontDotMatrixBold
-        source: "../assets/DotMatrix-Bold.ttf"
-    }
-    FontLoader {
-        id: previewFontDotMatrixItalic
-        source: "../assets/DotMatrix-Italic.ttf"
-    }
-    FontLoader {
-        id: previewFontDotMatrixBoldItalic
-        source: "../assets/DotMatrix-BoldItalic.ttf"
+    ClockFonts {
+        id: previewFonts
+        family: appearancePage.cfg_fontFamily
     }
 
-    readonly property string previewFontFamily: {
-        if (fontFamilyComboBox.currentText === "DotMatrix") {
-            return previewFontDotMatrixRegular.status === FontLoader.Ready ? previewFontDotMatrixRegular.name : "monospace"
-        }
-        return previewFontRegular.status === FontLoader.Ready ? previewFontRegular.name : "monospace"
-    }
-    readonly property bool previewFontBold: fontStyleComboBox.currentText === "Bold" || fontStyleComboBox.currentText === "Bold Italic"
-    readonly property bool previewFontItalic: fontStyleComboBox.currentText === "Italic" || fontStyleComboBox.currentText === "Bold Italic"
+    readonly property string previewFontFamily: previewFonts.name
+    readonly property bool previewFontBold: cfg_fontStyle === "Bold" || cfg_fontStyle === "Bold Italic"
+    readonly property bool previewFontItalic: cfg_fontStyle === "Italic" || cfg_fontStyle === "Bold Italic"
 
     function resetToDefaults() {
         plasmoid.configuration.showSeconds = true
@@ -82,10 +52,10 @@ KCM.SimpleKCM {
         plasmoid.configuration.startupTest = false
         plasmoid.configuration.fontScale = 1.0
 
-        clockStyleComboBox.currentIndex = clockStyleComboBox.model.indexOf("Neon Green")
+        cfg_clockStyle = "Neon Green"
         customColorHolder.value = "#00ff00"
-        fontFamilyComboBox.currentIndex = fontFamilyComboBox.model.indexOf("DSEG7")
-        fontStyleComboBox.currentIndex = fontStyleComboBox.model.indexOf("Regular")
+        cfg_fontFamily = "DSEG7"
+        cfg_fontStyle = "Regular"
         layoutCondensedCheckBox.checked = false
         fontScaleSlider.value = 1.0
         showShadowCheckBox.checked = true
@@ -108,12 +78,12 @@ KCM.SimpleKCM {
             Layout.preferredHeight: 60
             radius: 10
             color: {
-                var c = ColorUtils.getStyleComponents(clockStyleComboBox.currentText, appearancePage.cfg_customColor)
+                var c = ColorUtils.getStyleComponents(appearancePage.cfg_clockStyle, appearancePage.cfg_customColor)
                 return Qt.rgba(c.bg[0], c.bg[1], c.bg[2], c.bg[3])
             }
             border.width: 2
             border.color: {
-                var c = ColorUtils.getStyleComponents(clockStyleComboBox.currentText, appearancePage.cfg_customColor)
+                var c = ColorUtils.getStyleComponents(appearancePage.cfg_clockStyle, appearancePage.cfg_customColor)
                 return Qt.rgba(c.border[0], c.border[1], c.border[2], c.border[3])
             }
 
@@ -131,7 +101,7 @@ KCM.SimpleKCM {
                 visible: showShadowCheckBox.checked
                 z: -1
                 color: {
-                    var c = ColorUtils.getStyleComponents(clockStyleComboBox.currentText, appearancePage.cfg_customColor)
+                    var c = ColorUtils.getStyleComponents(appearancePage.cfg_clockStyle, appearancePage.cfg_customColor)
                     return Qt.rgba(c.shadow[0], c.shadow[1], c.shadow[2], c.shadow[3])
                 }
             }
@@ -146,7 +116,7 @@ KCM.SimpleKCM {
                 font.letterSpacing: layoutCondensedCheckBox.checked ? -3 : 0
                 renderType: Text.QtRendering
                 color: {
-                    var c = ColorUtils.getStyleComponents(clockStyleComboBox.currentText, appearancePage.cfg_customColor)
+                    var c = ColorUtils.getStyleComponents(appearancePage.cfg_clockStyle, appearancePage.cfg_customColor)
                     return Qt.rgba(c.text[0], c.text[1], c.text[2], c.text[3])
                 }
             }
@@ -157,25 +127,20 @@ KCM.SimpleKCM {
         id: clockStyleComboBox
         Kirigami.FormData.label: i18n("Clock style:")
         model: ["Neon Green", "Vintage Amber", "Sapphire Blue", "Ruby Red", "White Led", "VFD Teal", "Nixie Orange", "Retro LCD", "Custom"]
-        currentIndex: {
-            var idx = model.indexOf(plasmoid.configuration.clockStyle)
-            return idx >= 0 ? idx : 0
-        }
-        onCurrentTextChanged: {
-            plasmoid.configuration.clockStyle = currentText
-        }
+        currentIndex: Math.max(0, model.indexOf(appearancePage.cfg_clockStyle))
+        onActivated: appearancePage.cfg_clockStyle = currentText
     }
 
     RowLayout {
         Kirigami.FormData.label: i18n("Custom color:")
-        visible: clockStyleComboBox.currentText === "Custom"
-        spacing: 8
+        visible: appearancePage.cfg_clockStyle === "Custom"
+        spacing: Kirigami.Units.largeSpacing
 
         Rectangle {
             id: colorSwatch
-            width: 28
-            height: 28
-            radius: 4
+            width: Kirigami.Units.gridUnit * 1.5
+            height: Kirigami.Units.gridUnit * 1.5
+            radius: Kirigami.Units.smallSpacing
             border.width: 1
             border.color: Kirigami.Theme.disabledTextColor
             color: ColorUtils.isValidHexColor(appearancePage.cfg_customColor) ? appearancePage.cfg_customColor : "#00ff00"
@@ -207,26 +172,16 @@ KCM.SimpleKCM {
         id: fontFamilyComboBox
         Kirigami.FormData.label: i18n("Font family:")
         model: ["DSEG7", "DotMatrix"]
-        currentIndex: {
-            var idx = model.indexOf(plasmoid.configuration.fontFamily)
-            return idx >= 0 ? idx : 0
-        }
-        onCurrentTextChanged: {
-            plasmoid.configuration.fontFamily = currentText
-        }
+        currentIndex: Math.max(0, model.indexOf(appearancePage.cfg_fontFamily))
+        onActivated: appearancePage.cfg_fontFamily = currentText
     }
 
     ComboBox {
         id: fontStyleComboBox
         Kirigami.FormData.label: i18n("Font style:")
         model: ["Regular", "Bold", "Italic", "Bold Italic"]
-        currentIndex: {
-            var idx = model.indexOf(plasmoid.configuration.fontStyle)
-            return idx >= 0 ? idx : 0
-        }
-        onCurrentTextChanged: {
-            plasmoid.configuration.fontStyle = currentText
-        }
+        currentIndex: Math.max(0, model.indexOf(appearancePage.cfg_fontStyle))
+        onActivated: appearancePage.cfg_fontStyle = currentText
     }
 
     CheckBox {
@@ -242,7 +197,7 @@ KCM.SimpleKCM {
 
     RowLayout {
         Kirigami.FormData.label: i18n("Font scale:")
-        spacing: 8
+        spacing: Kirigami.Units.largeSpacing
 
         Slider {
             id: fontScaleSlider
@@ -253,7 +208,7 @@ KCM.SimpleKCM {
 
         Label {
             text: fontScaleSlider.value.toFixed(1) + "x"
-            Layout.preferredWidth: 40
+            Layout.preferredWidth: Kirigami.Units.gridUnit * 2.5
         }
     }
 

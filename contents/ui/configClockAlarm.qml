@@ -10,13 +10,32 @@ import org.kde.kcmutils as KCM
 KCM.SimpleKCM {
     id: clockAlarmPage
 
+    property bool cfg_use24HourFormat: true
+    property string cfg_alarmAmPm: "AM"
     property alias cfg_showSeconds: showSecondsCheckBox.checked
-    property alias cfg_use24HourFormat: use24HourFormatCheckBox.checked
     property alias cfg_showDate: showDateCheckBox.checked
     property alias cfg_alarmEnabled: alarmEnabledCheckBox.checked
     property alias cfg_alarmHour: alarmHourSpinBox.value
     property alias cfg_alarmMinute: alarmMinuteSpinBox.value
     property alias cfg_snoozeMinutes: snoozeMinutesSpinBox.value
+
+    function switchHourFormat(use24) {
+        if (use24 === cfg_use24HourFormat) {
+            return
+        }
+        var hour = cfg_alarmHour
+        var converted
+        var ampm = cfg_alarmAmPm
+        if (use24) {
+            converted = hour % 12 + (cfg_alarmAmPm === "PM" ? 12 : 0)
+        } else {
+            ampm = hour >= 12 ? "PM" : "AM"
+            converted = hour % 12 === 0 ? 12 : hour % 12
+        }
+        cfg_use24HourFormat = use24
+        cfg_alarmHour = converted
+        cfg_alarmAmPm = ampm
+    }
 
     Kirigami.FormLayout {
 
@@ -28,6 +47,8 @@ KCM.SimpleKCM {
     CheckBox {
         id: use24HourFormatCheckBox
         text: i18n("24-hour format")
+        checked: clockAlarmPage.cfg_use24HourFormat
+        onToggled: clockAlarmPage.switchHourFormat(checked)
     }
     CheckBox {
         id: showDateCheckBox
@@ -44,12 +65,12 @@ KCM.SimpleKCM {
 
     RowLayout {
         Kirigami.FormData.label: i18n("Alarm time:")
-        spacing: 5
+        spacing: Kirigami.Units.smallSpacing
 
         SpinBox {
             id: alarmHourSpinBox
-            from: plasmoid.configuration.use24HourFormat ? 0 : 1
-            to: plasmoid.configuration.use24HourFormat ? 23 : 12
+            from: clockAlarmPage.cfg_use24HourFormat ? 0 : 1
+            to: clockAlarmPage.cfg_use24HourFormat ? 23 : 12
             editable: true
             wrap: true
         }
@@ -66,20 +87,17 @@ KCM.SimpleKCM {
 
         ComboBox {
             id: alarmAmPmComboBox
-            visible: !plasmoid.configuration.use24HourFormat
+            visible: !clockAlarmPage.cfg_use24HourFormat
             model: ["AM", "PM"]
-            Layout.preferredWidth: 80
-            currentIndex: {
-                var idx = model.indexOf(plasmoid.configuration.alarmAmPm)
-                return idx >= 0 ? idx : 0
-            }
-            onCurrentTextChanged: plasmoid.configuration.alarmAmPm = currentText
+            Layout.preferredWidth: Kirigami.Units.gridUnit * 4.5
+            currentIndex: Math.max(0, model.indexOf(clockAlarmPage.cfg_alarmAmPm))
+            onActivated: clockAlarmPage.cfg_alarmAmPm = currentText
         }
     }
 
     RowLayout {
         Kirigami.FormData.label: i18n("Snooze duration:")
-        spacing: 5
+        spacing: Kirigami.Units.smallSpacing
 
         SpinBox {
             id: snoozeMinutesSpinBox

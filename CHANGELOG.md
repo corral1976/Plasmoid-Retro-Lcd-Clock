@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.8.0] - 2026-10-14
+
+### Fixed
+- Configuration dialog: the clock style, font family, font style and alarm AM/PM selectors saved their value immediately, so Cancel no longer reverted them. They now follow the standard `cfg_*` binding like the rest of the options and are committed with Apply. The preview box in the Appearance page still updates instantly.
+- Alarm time: the hour spin box range (0-23 or 1-12) now follows the "24-hour format" checkbox right away instead of waiting for Apply.
+- Alarm time: switching between 24-hour and 12-hour format now converts the saved alarm (for example 15:00 becomes 3 PM) instead of reinterpreting the same numbers, which could silently move the alarm to a different time or keep it from ringing.
+- The alarm dialog is now anchored to the widget. Its `visualParent` referenced an id that was not reachable from that scope, so it was never set.
+- `AlarmDot` no longer redefines the built-in `enabled` property of `Item`.
+
+### Changed
+- Alarm dialog moved to its own component. Its Stop and Snooze buttons are now real buttons, so they can be focused and activated with the keyboard, and the hover highlight also works on black themes. Sizes use Kirigami units instead of fixed pixels.
+- Configuration pages use Kirigami units for spacing and control sizes.
+- `main.qml` reduced from 944 to about 670 lines: the colon separator (previously repeated six times) is now `ColonSeparator.qml`, and the eight font loaders shared by the clock and the preview are now `ClockFonts.qml`.
+- `main.qml` reads settings directly from `Plasmoid.configuration`. The per-setting fallbacks for missing values were removed, since `main.xml` already defines every default.
+
+### Documentation
+- README lists the Qt 6 Multimedia QML module as a requirement.
+
 ## [1.7.1] - 2026-10-14
 
 ### Fixed

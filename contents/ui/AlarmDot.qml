@@ -7,7 +7,7 @@ Item {
     id: root
 
     property int size: 8
-    property bool enabled: false
+    property bool alarmEnabled: false
     property bool active: false
     property bool blinkState: true
     property bool snoozing: false
@@ -19,7 +19,7 @@ Item {
     property real testOverlayOpacity: 0.0
 
     readonly property color dotColor: {
-        if (!root.enabled) {
+        if (!root.alarmEnabled) {
             return "transparent"
         } else if (root.active) {
             return root.blinkState ? root.mainColor : Qt.rgba(1, 1, 1, 0.3)
@@ -29,7 +29,7 @@ Item {
         return root.mainColor
     }
     readonly property color shadowDotColor: {
-        if (!root.enabled) {
+        if (!root.alarmEnabled) {
             return "transparent"
         } else if (root.active) {
             return root.blinkState ? root.shadowColor : Qt.rgba(1, 1, 1, 0.3)
@@ -41,7 +41,7 @@ Item {
 
     width: size
     height: size
-    visible: enabled || showGhost || testOverlayOpacity > 0
+    visible: alarmEnabled || showGhost || testOverlayOpacity > 0
 
     Rectangle {
         width: root.size

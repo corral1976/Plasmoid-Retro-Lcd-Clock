@@ -33,7 +33,7 @@ A digital clock widget with a retro 7-segment LCD aesthetic for your KDE Plasma 
 - **Startup Lamp Test:** Optional brief all-segments flash when the widget loads, just like the self-test on real digital clocks and microwaves.
 - **Vertical Panel Support:** Digits, AM/PM indicator and date scale and stack cleanly on vertical panels, with real stacked-dot colon separators.
 - **Resizable Floating Widget:** On the desktop, drag the widget's corners/edges to resize its container manually (subject to a minimum size set by the Plasma shell itself); digit size is adjusted separately via the Font Scale slider.
-- **Configuration Panel:** Built-in interface split into Appearance, Effects, and Clock and Alarm pages, plus a one-click "Reset to defaults" button.
+- **Configuration Panel:** Built-in interface split into Appearance, Effects, and Clock and Alarm pages, plus a one-click "Reset to defaults" button. Changes are applied with the Apply button, and Cancel discards them.
 - **Adaptive:** Compatible with both light and dark Plasma color schemes.
 - **Optimized:** Extremely lightweight and resource-efficient.
 
@@ -60,6 +60,22 @@ A digital clock widget with a retro 7-segment LCD aesthetic for your KDE Plasma 
 ## Requirements
 
 - **KDE Plasma 6**
+- **Qt 6 Multimedia QML module**, used to play the alarm sound. Without it the widget does not load.
+
+  - **Debian / Ubuntu** (`qml6-module-qtmultimedia`):
+    ```bash
+    dpkg -s qml6-module-qtmultimedia &>/dev/null || (sudo apt update && sudo apt install -y qml6-module-qtmultimedia)
+    ```
+
+  - **Fedora** (`qt6-qtmultimedia`):
+    ```bash
+    rpm -q qt6-qtmultimedia &>/dev/null || sudo dnf install -y qt6-qtmultimedia
+    ```
+
+  - **Arch Linux** (`qt6-multimedia`):
+    ```bash
+    pacman -Q qt6-multimedia &>/dev/null || sudo pacman -S --noconfirm qt6-multimedia
+    ```
 
 ---
 
@@ -90,8 +106,11 @@ A digital clock widget with a retro 7-segment LCD aesthetic for your KDE Plasma 
 │       ├── configAppearance.qml
 │       ├── configEffects.qml
 │       ├── configClockAlarm.qml
-│       ├── ShadowedText.qml
-│       └── AlarmDot.qml
+│       ├── AlarmDialog.qml
+│       ├── AlarmDot.qml
+│       ├── ClockFonts.qml
+│       ├── ColonSeparator.qml
+│       └── ShadowedText.qml
 ├── LICENSE
 ├── NOTICE.md
 └── metadata.json
