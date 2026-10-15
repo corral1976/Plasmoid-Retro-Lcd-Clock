@@ -143,6 +143,15 @@ PlasmoidItem {
     property date alarmStartTime: new Date(0)
     property bool snoozeActive: false
     property date snoozeUntil: new Date(0)
+    property string longDateStr: ""
+    property bool pointerInside: false
+    property bool datePopupReady: false
+
+    onPointerInsideChanged: {
+        if (!pointerInside) {
+            datePopupReady = false
+        }
+    }
 
     MediaPlayer {
         id: alarmPlayer
@@ -166,15 +175,49 @@ PlasmoidItem {
         onSnoozeRequested: snoozeAlarm()
     }
 
+    Loader {
+        id: timeSourceLoader
+        source: "TimeSource.qml"
+    }
+
+    Connections {
+        target: timeSourceLoader.item
+        ignoreUnknownSignals: true
+
+        function onTick(now) {
+            updateClock(now)
+            checkAlarm(now)
+        }
+    }
+
     Timer {
         id: clockTimer
-        interval: 1000
+        interval: 1015 - new Date().getMilliseconds()
         repeat: true
-        running: true
+        running: timeSourceLoader.status !== Loader.Ready
         onTriggered: {
-            updateClock()
-            checkAlarm()
+            var now = new Date()
+            updateClock(now)
+            checkAlarm(now)
+            interval = 1015 - new Date().getMilliseconds()
         }
+    }
+
+    DatePopup {
+        visible: Plasmoid.configuration.hoverDate && pointerInside && datePopupReady && !alarmActive
+        visualParent: root
+        location: planarMode ? PlasmaCore.Types.BottomEdge : Plasmoid.location
+        text: longDateStr
+        backgroundColor: activeBgColor
+        borderColor: activeBorderColor
+        textColor: activeTextColor
+    }
+
+    Timer {
+        id: datePopupDelay
+        interval: 400
+        running: Plasmoid.configuration.hoverDate && pointerInside
+        onTriggered: datePopupReady = true
     }
 
     Timer {
@@ -248,8 +291,7 @@ PlasmoidItem {
         NumberAnimation { target: root; property: "lampTestOpacity"; to: 0.0; duration: 700; easing.type: Easing.InQuad }
     }
     
-    function updateClock() {
-        var now = new Date()
+    function updateClock(now) {
         var hours = now.getHours()
         var minutes = now.getMinutes()
         var seconds = now.getSeconds()
@@ -284,6 +326,7 @@ PlasmoidItem {
             timeDigits = [h1.toString(), h2.toString(), ":", m1.toString(), m2.toString()]
         }
 
+        longDateStr = Qt.locale().toString(now, Qt.locale().dateFormat(Locale.LongFormat))
         currentDateStr = d1.toString() + d2.toString() + "/" + mo1.toString() + mo2.toString() + "/" + year
         currentTimeStr = timeDigits.join("")
 
@@ -293,13 +336,11 @@ PlasmoidItem {
         lastMinute = minutes
     }
 
-    function checkAlarm() {
+    function checkAlarm(now) {
         if (!Plasmoid.configuration.alarmEnabled) {
             snoozeActive = false
             return
         }
-
-        var now = new Date()
 
         if (snoozeActive) {
             if (now.getTime() >= snoozeUntil.getTime()) {
@@ -637,6 +678,8 @@ PlasmoidItem {
         MouseArea {
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
+            hoverEnabled: true
+            onContainsMouseChanged: root.pointerInside = containsMouse
             onClicked: {
                 if (alarmActive) {
                     stopAlarm()
@@ -670,6 +713,6 @@ PlasmoidItem {
     }
     
     Component.onCompleted: {
-        updateClock()
+        updateClock(new Date())
     }
 }

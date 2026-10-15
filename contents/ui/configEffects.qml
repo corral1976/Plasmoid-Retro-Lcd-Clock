@@ -16,6 +16,7 @@ KCM.SimpleKCM {
     property alias cfg_crtScanlines: crtScanlinesCheckBox.checked
     property alias cfg_minuteFlicker: minuteFlickerCheckBox.checked
     property alias cfg_startupTest: startupTestCheckBox.checked
+    property alias cfg_hoverDate: hoverDateCheckBox.checked
 
     Kirigami.FormLayout {
 
@@ -37,6 +38,11 @@ KCM.SimpleKCM {
         id: startupTestCheckBox
         Kirigami.FormData.label: i18n("Startup:")
         text: i18n("Lamp test on load")
+    }
+    CheckBox {
+        id: hoverDateCheckBox
+        Kirigami.FormData.label: i18n("Mouse:")
+        text: i18n("Show date popup on hover")
     }
 
     Item { Kirigami.FormData.isSection: true }

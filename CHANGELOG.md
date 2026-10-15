@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.9.0] - 2026-10-15
+
+### Added
+- **Date popup on hover** (off by default): a small popup styled to match the active theme that shows the full date, in your system language, when you rest the mouse over the clock. It appears after a short delay so it does not flash while the pointer passes by, never takes mouse or keyboard focus, and stays hidden while the alarm is ringing. Enable it in the Effects page, under Mouse, with "Show date popup on hover".
+  - Added the `hoverDate` configuration property (bool, default `false`) in `main.xml`.
+
+## [1.8.1] - 2026-10-15
+
+### Fixed
+- Seconds could appear out of sync with the default KDE digital clock and other system clocks. The display now refreshes from Plasma's own time data source, the same one the default clock reads, instead of a free-running timer whose phase depended on when the widget was loaded. If that module is not available, it falls back to a timer that re-aligns itself to the start of every second.
+
 ## [1.8.0] - 2026-10-14
 
 ### Fixed

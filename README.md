@@ -31,6 +31,7 @@ A digital clock widget with a retro 7-segment LCD aesthetic for your KDE Plasma 
 - **CRT Scanlines:** Optional subtle horizontal scanline overlay for an old-school CRT/VFD screen feel.
 - **Minute-Change Flicker:** Optional brief flicker each time the minute rolls over, mimicking a mechanical relay-driven or aging display refreshing its value.
 - **Startup Lamp Test:** Optional brief all-segments flash when the widget loads, just like the self-test on real digital clocks and microwaves.
+- **Date Popup on Hover:** Optional popup that shows the full date when you rest the mouse over the clock, styled to match your chosen theme.
 - **Vertical Panel Support:** Digits, AM/PM indicator and date scale and stack cleanly on vertical panels, with real stacked-dot colon separators.
 - **Resizable Floating Widget:** On the desktop, drag the widget's corners/edges to resize its container manually (subject to a minimum size set by the Plasma shell itself); digit size is adjusted separately via the Font Scale slider.
 - **Configuration Panel:** Built-in interface split into Appearance, Effects, and Clock and Alarm pages, plus a one-click "Reset to defaults" button. Changes are applied with the Apply button, and Cancel discards them.
@@ -110,7 +111,9 @@ A digital clock widget with a retro 7-segment LCD aesthetic for your KDE Plasma 
 │       ├── AlarmDot.qml
 │       ├── ClockFonts.qml
 │       ├── ColonSeparator.qml
-│       └── ShadowedText.qml
+│       ├── DatePopup.qml
+│       ├── ShadowedText.qml
+│       └── TimeSource.qml
 ├── LICENSE
 ├── NOTICE.md
 └── metadata.json
