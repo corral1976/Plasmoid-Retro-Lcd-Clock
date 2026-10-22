@@ -9,11 +9,11 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
-      
+      uses: actions/checkout@v5
+
     - name: Validate metadata.json
       run: |
         if [ -f metadata.json ]; then
@@ -23,7 +23,7 @@ jobs:
         else
           echo "Warning: metadata.json not found"
         fi
-        
+
     - name: Check LICENSE file
       run: |
         if [ -f LICENSE ]; then
@@ -33,7 +33,7 @@ jobs:
           echo "Error: LICENSE file not found"
           exit 1
         fi
-        
+
     - name: Check README
       run: |
         if [ -f README.md ]; then
