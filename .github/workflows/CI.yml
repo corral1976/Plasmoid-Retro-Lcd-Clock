@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Carlos Corral
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 name: CI
 
 on:
@@ -42,3 +45,14 @@ jobs:
           echo "Error: README.md not found"
           exit 1
         fi
+
+  reuse:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v5
+
+    - name: Check REUSE compliance
+      run: pipx run reuse lint
