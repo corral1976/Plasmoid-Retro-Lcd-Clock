@@ -1,14 +1,18 @@
 # Changelog
 
-## [1.9.1] - 2026-10-30
+## [1.9.1] - 2026-10-31
 
 ### Fixed
 - "Reset to defaults" did not restore "Show date popup on hover" (`hoverDate`).
 
+### Changed
+- New widget icon (`contents/icons/icon.svg`): original vector artwork of the clock, replacing the previous third-party icon.
+- Licensing now follows the REUSE specification (reuse.software): `REUSE.toml` declares copyright and license for the fonts, alarm sound, icon and documentation, and `LICENSES/` holds standard SPDX-named texts (`GPL-3.0-or-later.txt`, `OFL-1.1.txt`, `CC0-1.0.txt`). The package passes `reuse lint`.
+- Each font family now ships its copyright notice and the full OFL-1.1 text next to the fonts: `contents/assets/DSEG7-OFL.txt` and `contents/assets/DotMatrix-OFL.txt`.
+
 ### Documentation
-- Added a `LICENSES/` folder with the full OFL-1.1 text and copyright notice for each bundled font family (`OFL-1.1-DSEG7.txt`, `OFL-1.1-DotMatrix.txt`) and a copy of the GPL-3.0-or-later text.
-- `NOTICE.md`: the fonts are bundled as separate files in `contents/assets/`, not embedded in a binary, so they are redistributed as-is. Removed the statement saying the license text was not needed for that reason and pointed to the new `LICENSES/` files. Added the DSEG7 copyright line. Removed a note about a previous font that did not apply to this plasmoid.
-- `README.md`: project structure lists `LICENSES/`; the title and install instructions use the widget name "Reloj LCD Retro" as it appears in Add Widgets.
+- `NOTICE.md`: the fonts are bundled as separate files in `contents/assets/`, not embedded in a binary, so they are redistributed as-is. Removed the statement saying the license text was not needed for that reason, added the DSEG7 copyright line and removed a note about a previous font that did not apply to this plasmoid.
+- `README.md`: project structure lists `LICENSES/` and `REUSE.toml`; the title and install instructions use the widget name "Reloj LCD Retro" as it appears in Add Widgets.
 - Installation guide: uses the widget name "Reloj LCD Retro" and the `.tar.gz` package name.
 
 ## [1.9.0] - 2026-10-15
@@ -47,7 +51,9 @@
 - `LICENSE` now contains the complete, unmodified text of the GNU GPL version 3 instead of the abbreviated notice, so license detectors (GitLab, REUSE, distribution tooling) can identify it.
 
 ### Changed
+<!-- REUSE-IgnoreStart -->
 - The license grant is now stated explicitly as "version 3 or (at your option) any later version", via SPDX headers (`SPDX-License-Identifier: GPL-3.0-or-later`) in every source file.
+<!-- REUSE-IgnoreEnd -->
 - `README.md` and `NOTICE.md` updated to match; the README third-party list now also credits DotMatrix and the icon.
 - CI validation now fails on invalid `metadata.json` or a missing/non-SPDX `License` value instead of only printing a warning.
 

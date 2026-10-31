@@ -93,6 +93,8 @@ A digital clock widget with a retro 7-segment LCD aesthetic for your KDE Plasma 
 │   │   ├── DotMatrix-Bold.ttf
 │   │   ├── DotMatrix-Italic.ttf
 │   │   ├── DotMatrix-BoldItalic.ttf
+│   │   ├── DSEG7-OFL.txt
+│   │   ├── DotMatrix-OFL.txt
 │   │   └── alarm.ogg
 │   ├── code/
 │   │   └── colorUtils.js
@@ -114,11 +116,12 @@ A digital clock widget with a retro 7-segment LCD aesthetic for your KDE Plasma 
 │       ├── ShadowedText.qml
 │       └── TimeSource.qml
 ├── LICENSES/
+│   ├── CC0-1.0.txt
 │   ├── GPL-3.0-or-later.txt
-│   ├── OFL-1.1-DSEG7.txt
-│   └── OFL-1.1-DotMatrix.txt
+│   └── OFL-1.1.txt
 ├── LICENSE
 ├── NOTICE.md
+├── REUSE.toml
 └── metadata.json
 ```
 
@@ -134,12 +137,11 @@ Your support helps maintain and improve the project.
 
 ## License and Credits
 
-This project is free software, licensed under the **GNU General Public License, version 3 or (at your option) any later version** (SPDX: `GPL-3.0-or-later`). The full text is in the `LICENSE` file; the font licenses are in the `LICENSES/` folder.
+This project is free software, licensed under the **GNU General Public License, version 3 or (at your option) any later version** (SPDX: `GPL-3.0-or-later`). The full text is in the `LICENSE` file; the other license texts are in the `LICENSES/` folder. The project follows the [REUSE specification](https://reuse.software).
 
 Third-party assets:
 
 - Fonts: DSEG7-Classic by Keshikan and DotMatrix by Stefan Schmidt / The DotMatrix Project Authors. Both licensed under the SIL Open Font License 1.1.
-- Icon: "Digital Clock" by manio1. Licensed under Creative Commons 0 (CC0).
 - Alarm sound: "alarm clock buzzer alarm beep" by Garuda1982. Licensed under Creative Commons 0 (CC0).
 
 For more details, see the NOTICE.md file.
