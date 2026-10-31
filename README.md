@@ -1,7 +1,7 @@
 # Reloj LCD Retro (Plasmoid)
 
 [![Latest Release](https://img.shields.io/github/v/release/corral1976/Plasmoid-Retro-Lcd-Clock)](https://github.com/corral1976/Plasmoid-Retro-Lcd-Clock/releases)
-[![build](https://img.shields.io/github/actions/workflow/status/corral1976/Plasmoid-Retro-Lcd-Clock/ci.yml?style=flat-square&label=build&labelColor=282828&color=2ea44f)](https://github.com/corral1976/Plasmoid-Retro-Lcd-Clock/actions)
+[![build](https://img.shields.io/github/actions/workflow/status/corral1976/Plasmoid-Retro-Lcd-Clock/CI.yml?style=flat-square&label=build&labelColor=282828&color=2ea44f)](https://github.com/corral1976/Plasmoid-Retro-Lcd-Clock/actions)
 [![License: GPL-3.0-or-later](https://img.shields.io/badge/License-GPL--3.0--or--later-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 A digital clock widget with a retro 7-segment LCD aesthetic for your KDE Plasma 6 desktop. Minimalist design, lightweight, and with an authentic vintage touch.
