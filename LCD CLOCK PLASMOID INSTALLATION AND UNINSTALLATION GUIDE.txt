@@ -7,7 +7,7 @@
 1. Open a terminal in the folder where you downloaded the .tar.gz file.
 2. Run the following command to install it:
 
-kpackagetool6 --type Plasma/Applet --install com-gitlab-corral1976-relojlcd-1.9.1.tar.gz
+kpackagetool6 --type Plasma/Applet --install com-gitlab-corral1976-relojlcd-1.9.2.tar.gz
 
 3. Restart the KDE panel to apply the changes:
 

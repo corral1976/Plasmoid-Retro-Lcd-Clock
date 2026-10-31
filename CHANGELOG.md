@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.9.2] - 2026-10-31
+
+### Changed
+- `Website` in `metadata.json` now points to the KDE Store listing (https://store.kde.org/p/2363962) instead of the GitLab repository, since the project is hosted on both GitLab and GitHub.
+
 ## [1.9.1] - 2026-10-31
 
 ### Fixed
