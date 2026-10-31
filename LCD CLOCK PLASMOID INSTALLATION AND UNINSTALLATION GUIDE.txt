@@ -1,13 +1,13 @@
 ====================================================================
-     LCD CLOCK PLASMOID INSTALLATION AND UNINSTALLATION GUIDE
+     RELOJ LCD RETRO PLASMOID INSTALLATION AND UNINSTALLATION GUIDE
 ====================================================================
 
 [ INSTALLATION ]
 --------------------------------------------------------------------
-1. Open a terminal in the folder where you downloaded the .zip file.
+1. Open a terminal in the folder where you downloaded the .tar.gz file.
 2. Run the following command to install it:
 
-kpackagetool6 --type Plasma/Applet --install relojLCD-plasmoid-by-carlos-corral.zip
+kpackagetool6 --type Plasma/Applet --install com-gitlab-corral1976-relojlcd-1.9.1.tar.gz
 
 3. Restart the KDE panel to apply the changes:
 
@@ -19,7 +19,7 @@ systemctl --user restart plasma-plasmashell
    terminal now.
 
 5. To add the clock: Right-click on an empty space on your taskbar,
-   select "Add Widgets", search for your "LCD Clock" in the list,
+   select "Add Widgets", search for "Reloj LCD Retro" in the list,
    and drag it onto the panel.
 
 

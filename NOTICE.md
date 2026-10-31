@@ -2,7 +2,7 @@
 
 This plasmoid (original QML code) is licensed under **GPL-3.0-or-later**: the GNU
 General Public License, version 3 or (at your option) any later version
-(see `LICENSE`). Copyright (C) 2026 Carlos Corral.
+(see `LICENSE` and `LICENSES/GPL-3.0-or-later.txt`). Copyright (C) 2026 Carlos Corral.
 The multimedia assets have their own licenses, documented here to make it clear
 what can and cannot be done with each one.
 
@@ -14,16 +14,10 @@ what can and cannot be done with each one.
   - `contents/assets/DSEG7Classic-Italic.ttf`
   - `contents/assets/DSEG7Classic-BoldItalic.ttf`
 - **Author:** Keshikan (https://www.keshikan.net)
+- **Copyright:** (c) 2018 keshikan, with Reserved Font Name "DSEG"
 - **License:** SIL Open Font License 1.1 (OFL-1.1) — free for personal and
   commercial use, can be modified and redistributed.
 - **Official origin:** https://github.com/keshikan/DSEG
-- **Why it was changed:** the original font included in previous versions of
-  this package ("digital-7 (mono).ttf" by Sizenko Alexander / Style-7) is
-  *freeware for personal use only* ("Freeware for personal use. For commercial
-  use please contact us."), a license incompatible with the public redistribution
-  of this plasmoid under the GPL. It was replaced by DSEG7-Classic, which
-  mimics the same 7-segment LCD display style, is monospaced, and is
-  completely free.
 - **Font style option:** the four bundled variants (Regular, Bold, Italic,
   Bold Italic) are selectable from the widget's configuration
   (Settings → Appearance → "Font style"). The clock updates live as soon as
@@ -33,11 +27,10 @@ what can and cannot be done with each one.
   metadata differs. Because of this, the QML selects the variant via
   `font.bold` / `font.italic`, not by switching `font.family`.
 
-If at any point the DSEG font files are redistributed as-is
-(not just embedded/used by the program), they must be accompanied by Keshikan's
-copyright notice or the text of the OFL-1.1 license, according to point 1.10
-of the OFL-FAQ (this is not necessary if the fonts are only used embedded in the app,
-which is the case here).
+The font files are bundled unmodified as separate files in `contents/assets/`
+(they are not compiled into any binary), so they are redistributed as-is. Keshikan's
+copyright notice and the full OFL-1.1 text accompany them in
+`LICENSES/OFL-1.1-DSEG7.txt`, and the notice is also embedded in each font file.
 
 ## Font: DotMatrix
 
@@ -61,11 +54,10 @@ which is the case here).
   share the same internal font family name ("DotMatrix"); the QML selects
   the variant via `font.bold` / `font.italic`, not by switching `font.family`.
 
-If at any point the DotMatrix font files are redistributed as-is
-(not just embedded/used by the program), they must be accompanied by the
-DotMatrix Project Authors' copyright notice or the text of the OFL-1.1
-license, according to point 1.10 of the OFL-FAQ (this is not necessary if
-the fonts are only used embedded in the app, which is the case here).
+The font files are bundled unmodified as separate files in `contents/assets/`
+(they are not compiled into any binary), so they are redistributed as-is. The
+DotMatrix Project Authors' copyright notice and the full OFL-1.1 text accompany them
+in `LICENSES/OFL-1.1-DotMatrix.txt`, and the notice is also embedded in each font file.
 
 ## Icon: contents/icons/icon.svg
 

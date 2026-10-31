@@ -1,4 +1,4 @@
-# Retro LCD 7-Segment Clock (Plasmoid)
+# Reloj LCD Retro (Plasmoid)
 
 [![Latest Release](https://img.shields.io/github/v/release/corral1976/Plasmoid-Retro-Lcd-Clock)](https://github.com/corral1976/Plasmoid-Retro-Lcd-Clock/releases)
 [![build](https://img.shields.io/github/actions/workflow/status/corral1976/Plasmoid-Retro-Lcd-Clock/ci.yml?style=flat-square&label=build&labelColor=282828&color=2ea44f)](https://github.com/corral1976/Plasmoid-Retro-Lcd-Clock/actions)
@@ -45,7 +45,7 @@ A digital clock widget with a retro 7-segment LCD aesthetic for your KDE Plasma 
 
 1. Open **System Settings** → **Appearance** → **Widgets**.
 2. Click on **"Get New Widgets"** → **"Download New Plasma Widgets"**.
-3. Search for **"Retro LCD Clock"** and click **Install**.
+3. Search for **"Retro Clock LCD 7-Segment"** (the name of the store listing) and click **Install**. Once installed, the widget appears in **Add Widgets** as **"Reloj LCD Retro"**.
 
 ### Option 2: Manual Installation
 
@@ -113,6 +113,10 @@ A digital clock widget with a retro 7-segment LCD aesthetic for your KDE Plasma 
 │       ├── DatePopup.qml
 │       ├── ShadowedText.qml
 │       └── TimeSource.qml
+├── LICENSES/
+│   ├── GPL-3.0-or-later.txt
+│   ├── OFL-1.1-DSEG7.txt
+│   └── OFL-1.1-DotMatrix.txt
 ├── LICENSE
 ├── NOTICE.md
 └── metadata.json
@@ -130,7 +134,7 @@ Your support helps maintain and improve the project.
 
 ## License and Credits
 
-This project is free software, licensed under the **GNU General Public License, version 3 or (at your option) any later version** (SPDX: `GPL-3.0-or-later`). The full text is in the `LICENSE` file.
+This project is free software, licensed under the **GNU General Public License, version 3 or (at your option) any later version** (SPDX: `GPL-3.0-or-later`). The full text is in the `LICENSE` file; the font licenses are in the `LICENSES/` folder.
 
 Third-party assets:
 

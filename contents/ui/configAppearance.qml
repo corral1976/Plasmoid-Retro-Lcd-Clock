@@ -50,6 +50,7 @@ KCM.SimpleKCM {
         plasmoid.configuration.alarmAmPm = "AM"
         plasmoid.configuration.snoozeMinutes = 5
         plasmoid.configuration.startupTest = false
+        plasmoid.configuration.hoverDate = false
         plasmoid.configuration.fontScale = 1.0
 
         cfg_clockStyle = "Neon Green"
